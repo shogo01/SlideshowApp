@@ -8,13 +8,104 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+/*
+ 画像をタップすると画面を遷移させ、拡大画像と戻るボタンを表示させてください
+ 戻るボタンがタップされると、スライドショー画面に戻り、同じ画像を表示してください
+ Auto Layoutを使用して、iPhone 8, iPhone 8 Plus, iPhone 11, iPhone 11 Proの各画面サイズでレイアウトが崩れないようにしてください
+ */
 
+class ViewController: UIViewController, UIGestureRecognizerDelegate {
+    @IBAction func unwind(_ segue: UIStoryboardSegue) {
+    }
+    var imageNum = 0
+    var timer: Timer!
+    
+    @IBOutlet weak var imageview: UIImageView!
+    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var playStopButton: UIButton!
+    
+    // 画像の名前の配列
+    let imageNameArray = ["coffeef1.jpg", "coffeef2.jpg", "coffeef3.jpg", "coffeef4.jpg", "coffeef5.jpg"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        
+        
+        let image = UIImage(named: "coffeef1.jpg")
+        imageview.image = image
+        
+        let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(ViewController.tapped(_:)))
+        
+        tapGesture.delegate = self
+        imageview.isUserInteractionEnabled = true
+        imageview.addGestureRecognizer(tapGesture)
     }
-
-
+    
+    // 進むボタン
+    @IBAction func next(_ sender: Any) {
+        // インデックス番号をプラス１
+        imageNum += 1
+        // imageNumが５になったら、０に戻す
+        if imageNum == 5 {
+            imageNum = 0
+            imageview.image = UIImage(named: imageNameArray[imageNum])
+        } else {
+            imageview.image = UIImage(named: imageNameArray[imageNum])
+        }
+    }
+    
+    // 戻るボタン
+    @IBAction func back(_ sender: Any) {
+        imageNum -= 1
+        
+        if imageNum == -1 {
+            imageNum = 4
+            imageview.image = UIImage(named: imageNameArray[imageNum])
+        } else {
+            imageview.image = UIImage(named: imageNameArray[imageNum])
+        }
+    }
+    
+    // 再生、停止ボタン
+    @IBAction func playStopButton(_ sender: Any) {
+        if self.timer != nil {
+            self.timer.invalidate()
+            self.timer = nil
+            // 進むボタンと戻るボタンをタップでき流ようにする
+            nextButton.isEnabled = true
+            backButton.isEnabled = true
+            // ボタンの文字を再生に変更
+            playStopButton.setTitle("再生", for: .normal)
+        } else {
+            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(autoPlay(_:)), userInfo: nil, repeats: true)
+            // 進むボタンと戻るボタンをタップできないようにする
+            nextButton.isEnabled = false
+            backButton.isEnabled = false
+            // ボタンの文字を停止に変更
+            playStopButton.setTitle("停止", for: .normal)
+        }
+    }
+    
+    // タイマーで呼び出す処理
+    @objc func autoPlay(_ timer: Timer) {
+        imageNum += 1
+        if imageNum == 5 {
+            imageNum = 0
+            imageview.image = UIImage(named: imageNameArray[imageNum])
+        } else {
+            imageview.image = UIImage(named: imageNameArray[imageNum])
+        }
+    }
+    
+    // 画像がタップされたら呼ばれる処理
+    @objc func tapped(_ sender: UITapGestureRecognizer){
+        print("画像がタップ")
+        // 画面遷移の処理と、次の画面に画像を渡す処理
+    }
 }
 
