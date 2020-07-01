@@ -14,9 +14,18 @@ import UIKit
  Auto Layoutを使用して、iPhone 8, iPhone 8 Plus, iPhone 11, iPhone 11 Proの各画面サイズでレイアウトが崩れないようにしてください
  */
 
+
 class ViewController: UIViewController, UIGestureRecognizerDelegate {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // segueから遷移先のResultViewControllerを取得する
+        let resultViewController:ResultViewController = segue.destination as! ResultViewController
+        // 遷移先のResultViewControllerで宣言しているx, yに値を代入して渡す
+        resultViewController.x = UIImage(named: imageNameArray[imageNum])!
+    }
+    
     @IBAction func unwind(_ segue: UIStoryboardSegue) {
     }
+    
     var imageNum = 0
     var timer: Timer!
     
@@ -26,7 +35,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var playStopButton: UIButton!
     
     // 画像の名前の配列
-    let imageNameArray = ["coffeef1.jpg", "coffeef2.jpg", "coffeef3.jpg", "coffeef4.jpg", "coffeef5.jpg"]
+    let imageNameArray = ["japan1.jpg", "japan2.jpg", "japan3.jpg", "japan4.jpg", "japan5.jpg"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +43,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         
         
-        let image = UIImage(named: "coffeef1.jpg")
+        let image = UIImage(named: "japan1.jpg")
         imageview.image = image
         
         let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(
