@@ -1,22 +1,19 @@
-//
-//  ViewController.swift
-//  Slideshow App
-//
-//  Created by USER on 2020/06/11.
-//  Copyright © 2020 shogo.ujiie. All rights reserved.
-//
 
 import UIKit
 
-/*
- 画像をタップすると画面を遷移させ、拡大画像と戻るボタンを表示させてください
- 戻るボタンがタップされると、スライドショー画面に戻り、同じ画像を表示してください
- Auto Layoutを使用して、iPhone 8, iPhone 8 Plus, iPhone 11, iPhone 11 Proの各画面サイズでレイアウトが崩れないようにしてください
- */
+
 
 
 class ViewController: UIViewController, UIGestureRecognizerDelegate {
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if self.timer != nil {
+            self.timer.invalidate()
+            self.timer = nil
+            playStopButton.setTitle("再生", for: .normal)
+        }
+        
         // segueから遷移先のResultViewControllerを取得する
         let resultViewController:ResultViewController = segue.destination as! ResultViewController
         // 遷移先のResultViewControllerで宣言しているx, yに値を代入して渡す
