@@ -11,6 +11,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if self.timer != nil {
             self.timer.invalidate()
             self.timer = nil
+            nextButton.isEnabled = true
+            backButton.isEnabled = true
             playStopButton.setTitle("再生", for: .normal)
         }
         
@@ -36,10 +38,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        
-        
+
         let image = UIImage(named: "japan1.jpg")
         imageview.image = image
         
